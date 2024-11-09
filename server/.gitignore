@@ -1,0 +1,8 @@
+node_modules
+/dist
+.env
+local.env.txt
+dev.env.txt
+prod.env.txt
+.DS_Store
+.npmrc

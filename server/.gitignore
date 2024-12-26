@@ -2,8 +2,5 @@ node_modules
 /dist
 /src/storage
 .env
-local.env.txt
-dev.env.txt
-prod.env.txt
 .DS_Store
 .npmrc

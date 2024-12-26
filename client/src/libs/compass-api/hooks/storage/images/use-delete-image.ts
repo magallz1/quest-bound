@@ -6,7 +6,6 @@ import {
 import { useMutation } from '../../../utils';
 import { useError } from '../../metrics';
 import { useCacheHelpers } from '../cache-helpers';
-import { useDeleteFile } from '../use-delete-file';
 
 interface DeleteImage {
   id: string;
@@ -18,7 +17,6 @@ export const useDeleteImage = () => {
     DeleteImageMutationVariables
   >(deleteImageMutation);
 
-  const { deleteFile } = useDeleteFile();
   const { removeImageFromCache } = useCacheHelpers();
 
   const deleteImage = async ({ id }: DeleteImage) => {
@@ -33,16 +31,6 @@ export const useDeleteImage = () => {
     });
 
     if (!res.data?.deleteImage) throw new Error('Failed to delete image.');
-
-    // Returns true if nothing is associated to this image, such as a sheet component.
-    const { safeToDeleteFile, fileKey } = res.data.deleteImage;
-
-    if (safeToDeleteFile) {
-      deleteFile({
-        bucketName: 'images',
-        fileName: fileKey,
-      });
-    }
 
     return 'success';
   };

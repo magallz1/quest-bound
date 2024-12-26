@@ -31,7 +31,6 @@ export const DicePanel = () => {
     removeDice,
     error,
     userLoading,
-    isGuestUser,
     swapRooms,
     logout,
     displayingRoll,
@@ -127,7 +126,6 @@ export const DicePanel = () => {
               clearPoll={clearPoll}
               logout={logout}
               username={username}
-              isGuestUser={isGuestUser}
             />
             <JoinRoom
               joinRoom={joinRoom}
@@ -136,15 +134,14 @@ export const DicePanel = () => {
               roomPasscode={roomPasscode}
               availableRooms={availableRooms}
               roomSlug={roomSlug}
-              isGuestUser={isGuestUser}
             />
           </>
         )}
       </Stack>
 
-      {!isGuestUser && !userLoading && <DiceThemes getThemes={getThemes} setTheme={setTheme} />}
+      {!!username && <DiceThemes getThemes={getThemes} setTheme={setTheme} />}
 
-      {!userLoading && (
+      {!!username && (
         <SelectDice
           theme={theme}
           previews={theme.previews}
@@ -155,35 +152,37 @@ export const DicePanel = () => {
 
       <Divider style={{ width: '100%' }} />
 
-      <Stack
-        width='100%'
-        direction='row'
-        padding={2}
-        pl={6}
-        pr={6}
-        alignItems='center'
-        justifyContent='space-between'>
-        {displayingRoll && dice.length === 1 && dice[0].displayImage ? (
-          <Img src={dice[0].displayImage} />
-        ) : (
-          <Text variant='h3' sx={{ color: 'secondary.main' }}>
-            {displayingRoll ? total : '-'}
-          </Text>
-        )}
-        <Stack direction='row' spacing={2}>
-          <Button
-            loading={loading}
-            color='secondary'
-            variant='contained'
-            disabled={dice.length === 0 || userLoading}
-            onClick={handleRoll}>
-            Roll
-          </Button>
-          <Button disabled={loading} variant='contained' onClick={handleClear}>
-            Clear
-          </Button>
+      {!!username && (
+        <Stack
+          width='100%'
+          direction='row'
+          padding={2}
+          pl={6}
+          pr={6}
+          alignItems='center'
+          justifyContent='space-between'>
+          {displayingRoll && dice.length === 1 && dice[0].displayImage ? (
+            <Img src={dice[0].displayImage} />
+          ) : (
+            <Text variant='h3' sx={{ color: 'secondary.main' }}>
+              {displayingRoll ? total : '-'}
+            </Text>
+          )}
+          <Stack direction='row' spacing={2}>
+            <Button
+              loading={loading}
+              color='secondary'
+              variant='contained'
+              disabled={dice.length === 0 || userLoading}
+              onClick={handleRoll}>
+              Roll
+            </Button>
+            <Button disabled={loading} variant='contained' onClick={handleClear}>
+              Clear
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
+      )}
 
       <Stack
         alignItems='start'

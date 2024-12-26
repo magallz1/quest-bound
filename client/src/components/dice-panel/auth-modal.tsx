@@ -1,5 +1,5 @@
 import { Img } from '@/libs/compass-core-composites';
-import { IconButton, Link, Loader, Modal, Stack, Text, Tooltip } from '@/libs/compass-core-ui';
+import { IconButton, Link, Loader, Modal, Stack, Text } from '@/libs/compass-core-ui';
 import { Logout } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import dddiceImg from '../../assets/dddice.png';
@@ -10,17 +10,9 @@ interface Props {
   clearPoll: () => void;
   username?: string;
   logout: () => void;
-  isGuestUser: boolean;
 }
 
-export const AuthModal = ({
-  createAuthCode,
-  pollForAuth,
-  clearPoll,
-  username,
-  logout,
-  isGuestUser,
-}: Props) => {
+export const AuthModal = ({ createAuthCode, pollForAuth, clearPoll, username, logout }: Props) => {
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -45,7 +37,7 @@ export const AuthModal = ({
     <>
       <Stack direction='row' alignItems='center' spacing={2}>
         <Img src={dddiceImg} style={{ height: 30, width: 30 }} />
-        {!isGuestUser ? (
+        {username ? (
           <Stack direction='row' spacing={2} alignItems='center'>
             <Text>{username}</Text>
             <IconButton title='Logout' onClick={logout}>
@@ -53,11 +45,9 @@ export const AuthModal = ({
             </IconButton>
           </Stack>
         ) : (
-          <Tooltip title={<Text>Sign in with dddice</Text>} placement='top'>
-            <Text className='clickable' onClick={handleOpen} sx={{ textDecoration: 'underline' }}>
-              Guest User
-            </Text>
-          </Tooltip>
+          <Text className='clickable' onClick={handleOpen} sx={{ textDecoration: 'underline' }}>
+            Sign In to dddice
+          </Text>
         )}
       </Stack>
 

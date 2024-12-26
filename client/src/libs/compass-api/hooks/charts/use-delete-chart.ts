@@ -9,7 +9,6 @@ import {
 } from '../../gql';
 import { useMutation } from '../../utils';
 import { useError } from '../metrics';
-import { useDeleteFile } from '../storage';
 
 interface UseDeleteChart {
   deleteChart: (chart: Chart) => Promise<string>;
@@ -19,7 +18,6 @@ interface UseDeleteChart {
 
 export const useDeleteChart = (): UseDeleteChart => {
   const { rulesetId } = useParams();
-  const { deleteFile } = useDeleteFile();
   const [deleteMutation, { loading, error }] = useMutation<
     DeleteChartMutation,
     DeleteChartMutationVariables
@@ -47,8 +45,6 @@ export const useDeleteChart = (): UseDeleteChart => {
     if (!res.data?.deleteChart) {
       throw Error('Unabled to delete chart');
     }
-
-    await deleteFile({ bucketName: 'charts', fileName: chart.fileKey });
 
     return 'success';
   };

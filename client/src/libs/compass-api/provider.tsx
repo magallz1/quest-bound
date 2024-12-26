@@ -9,15 +9,13 @@ import { setContext } from '@apollo/client/link/context';
 import { from, split } from '@apollo/client/link/core';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { createClient as createGraphqlClient } from 'graphql-ws';
 import { createContext, ReactNode } from 'react';
 import { cache } from './cache';
 import { useSessionToken } from './hooks';
+import { addStaticDomain } from './utils/inject-static-domain';
 
 const { warn } = debugLog('API', 'API providers');
-
-let supabaseClient: SupabaseClient<any, 'public', any> | null = null;
 
 const operationsNotRequiringAuth = [
   'Character',
@@ -27,13 +25,6 @@ const operationsNotRequiringAuth = [
   'EarlyAccessUser',
   'RulesetSalesPage',
 ];
-
-const getSupabaseClient = (host: string, key: string) => {
-  if (supabaseClient) return supabaseClient;
-
-  supabaseClient = createClient(host, key);
-  return supabaseClient;
-};
 
 const GraphQLProvider = ({
   children,
@@ -101,7 +92,7 @@ const GraphQLProvider = ({
     return forward(operation);
   });
 
-  const linksArray = [authLink, removeTypenames, preventCallsWithoutAuth];
+  const linksArray = [authLink, removeTypenames, preventCallsWithoutAuth, addStaticDomain];
   linksArray.push(splitLink);
 
   const links = from(linksArray);
@@ -123,7 +114,6 @@ export const RestContext = createContext({
 });
 
 type SupabaseContextType = {
-  client: SupabaseClient<any, 'public', any>;
   host: string;
 };
 
@@ -144,7 +134,12 @@ const RestProvider = ({
 }) => {
   return (
     <RestContext.Provider
-      value={{ emailApiEndpoint, checkoutEndpoint, signupEndpoint, manageEndpoint }}>
+      value={{
+        emailApiEndpoint,
+        checkoutEndpoint,
+        signupEndpoint,
+        manageEndpoint,
+      }}>
       {children}
     </RestContext.Provider>
   );
@@ -171,10 +166,8 @@ export const CacheProvider = ({
   signupEndpoint: string;
   manageEndpoint: string;
 }) => {
-  const client = getSupabaseClient(supabaseHost, supabaseKey);
-
   return (
-    <SupabaseContext.Provider value={{ client, host: supabaseHost }}>
+    <SupabaseContext.Provider value={{ host: supabaseHost }}>
       <GraphQLProvider gqlEndpoint={graphqlEndpoint} compassKey={compassKey}>
         <RestProvider
           emailApiEndpoint={emailApiEndpoint}

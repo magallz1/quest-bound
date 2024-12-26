@@ -1,4 +1,4 @@
-import { EnvContext, SettingsContext } from '@/libs/compass-web-utils';
+import { SettingsContext } from '@/libs/compass-web-utils';
 import { useNotifications } from '@/stores';
 import { IRoll, ThreeDDice, ThreeDDiceRollEvent } from 'dddice-js';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -27,8 +27,6 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
 
   const { addNotification } = useNotifications();
 
-  const { dddiceKey } = useContext(EnvContext);
-
   const dddice = dddiceRef.current;
   const dddiceRoomRef = useRef<string | null>(null);
 
@@ -37,7 +35,6 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userLoading, setUserLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
-  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [roomName, setRoomName] = useState<string>('');
   const [roomPasscode, setRoomPasscode] = useState<string>('');
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
@@ -58,8 +55,8 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
 
   useEffect(() => {
     return () => {
-      if (dddiceRoomRef.current) {
-        disconnect(dddiceRoomRef.current, userTokenRef.current ?? dddiceKey);
+      if (dddiceRoomRef.current && userTokenRef.current) {
+        disconnect(dddiceRoomRef.current, userTokenRef.current);
       }
     };
   }, []);
@@ -78,17 +75,15 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
         setToken(overrideToken);
       }
 
-      const {
-        roomSlug,
-        roomName,
-        roomPasscode,
-        rooms,
-        username,
-        userToken,
-        userId,
-        isGuest,
-        lastTheme,
-      } = await authenticateDddiceUser();
+      const diceUser = await authenticateDddiceUser();
+
+      if (!diceUser) {
+        setUserLoading(false);
+        return;
+      }
+
+      const { roomSlug, roomName, roomPasscode, rooms, username, userToken, userId, lastTheme } =
+        diceUser;
 
       userTokenRef.current = userToken;
       userIdRef.current = userId;
@@ -98,7 +93,7 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
       setUsername(username);
       setRoomName(roomName);
       setAvailableRooms(rooms);
-      setIsGuestUser(isGuest);
+
       if (roomPasscode) setRoomPasscode(roomPasscode);
       if (lastTheme) setSelectedTheme(lastTheme);
 
@@ -259,7 +254,7 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
 
   const handleLogout = () => {
     logout();
-    instantiateDddice();
+    setUsername('');
     setSelectedTheme(standardTheme);
   };
 
@@ -288,7 +283,6 @@ export const useDice = ({ canvasRef }: Props): UseDice => {
     availableRooms,
     logout: handleLogout,
     roomSlug: dddiceRoomRef.current ?? '',
-    isGuestUser,
     userLoading,
     error,
     swapRooms: handleSwapRoom,

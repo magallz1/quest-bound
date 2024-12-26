@@ -51,7 +51,7 @@ export const updateRuleset = async (
       rulesetPermissions: input.rulesetPermissions ?? undefined,
       details: input.details ?? undefined,
       isModule: input.isModule ?? undefined,
-      imageId: input.imageId ?? undefined,
+      imageId: input.imageId,
     },
   });
 

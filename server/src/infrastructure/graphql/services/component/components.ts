@@ -27,7 +27,7 @@ export const sheetComponents = async (
       userPermittedRulesetReadIds,
       userPermittedPublishedRulesetReadIds,
     });
-  } else {
+  } else if (context.authorizationRequired) {
     // No user is authenticated. Make sure sheet is being streamed.
     const character = await db.character.findFirst({
       where: {

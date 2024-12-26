@@ -31,6 +31,7 @@ export const SelectImageModal = ({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [fileUpload, setFileUpload] = useState<File | null>(null);
+  const [imageProcessing, setImageProcessing] = useState(false);
 
   const handleSelect = async () => {
     const files = fileRef?.current?.files;
@@ -59,6 +60,9 @@ export const SelectImageModal = ({
     const file = files?.[0];
     if (!file) return;
 
+    setFileUpload(null);
+    setImageProcessing(true);
+
     const base64 = await toBase64(file.file);
 
     const updatedImages = await createImages([file]);
@@ -67,7 +71,7 @@ export const SelectImageModal = ({
     );
 
     if (existingImage) onSelect?.(existingImage);
-    setFileUpload(null);
+    setImageProcessing(false);
     onClose();
   };
 
@@ -111,6 +115,7 @@ export const SelectImageModal = ({
               {!!onRemoveUrl && (
                 <Button
                   color='error'
+                  disabled={imageProcessing}
                   variant='contained'
                   onClick={() => {
                     onRemoveUrl();
@@ -123,7 +128,7 @@ export const SelectImageModal = ({
               <Button
                 variant='contained'
                 color='secondary'
-                loading={loading}
+                loading={loading || imageProcessing}
                 disabled={url.length === 0}
                 onClick={() => {
                   onSaveUrl(url);

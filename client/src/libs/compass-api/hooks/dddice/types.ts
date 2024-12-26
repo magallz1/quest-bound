@@ -51,7 +51,6 @@ export type DiceUser = {
   lastTheme?: DiceTheme;
   roomPasscode?: string;
   rooms: Room[];
-  isGuest: boolean;
 };
 
 export const standardTheme: DiceTheme = {
@@ -89,7 +88,6 @@ export interface UseDice {
   roomSlug: string;
   logout: () => void;
   availableRooms: Room[];
-  isGuestUser: boolean;
   userLoading: boolean;
   swapRooms: (roomSlug: string) => void;
   roomPasscode?: string;

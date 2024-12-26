@@ -1,44 +1,38 @@
-import { makeVar } from '@apollo/client/core/index.js';
-import { useReactiveVar } from '@apollo/client/react/index.js';
-import { Session } from '@supabase/supabase-js';
-import { useContext, useEffect, useState } from 'react';
-import { SupabaseContext } from '../../provider';
+import { makeVar } from "@apollo/client/core/index.js";
+import { useReactiveVar } from "@apollo/client/react/index.js";
+import { useEffect, useState } from "react";
 
 const tokenVar = makeVar<string | null>(null);
 
 /**
- * Pulls Supabase session token from cookies and sets it in cache when currentUser changes.
- * Gives the ApolloProvider reactive access to the token to pass in auth headers.
+ * For non-auth use cases, this simply returns the user ID set in local storage. When the server is
+ * set to not require authentication, it expects the user ID passed as an auth token.
+ *
+ * For auth use cases, you'll want to pull a token from cookies depending on your auth strategy.
  */
 export const useSessionToken = () => {
-  const { client } = useContext(SupabaseContext);
-
   const token = useReactiveVar(tokenVar);
-  const [session, setSession] = useState<Session | null>(null);
-
-  const setToken = (token: string | null) => {
-    tokenVar(token);
-  };
 
   useEffect(() => {
-    client.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setToken(session?.access_token ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = client.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setToken(session?.access_token ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    const existingToken = localStorage.getItem("questbound-user-id");
+    if (existingToken) {
+      tokenVar(existingToken);
+    }
   }, []);
+
+  const setToken = (_token: string | null) => {
+    tokenVar(_token);
+
+    if (_token) {
+      localStorage.setItem("questbound-user-id", _token);
+    } else {
+      localStorage.removeItem("questbound-user-id");
+    }
+  };
 
   return {
     token,
     setToken,
-    session,
+    session: null,
   };
 };

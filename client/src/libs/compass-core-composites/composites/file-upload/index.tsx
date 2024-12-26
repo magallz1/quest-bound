@@ -1,15 +1,16 @@
-import { FileResponse, SupabaseContext, useSessionToken } from '@/libs/compass-api';
+import { API_ENDPOINT } from '@/constants';
+import { FileResponse } from '@/libs/compass-api';
 import { generateId } from '@/libs/compass-web-utils';
-import Uppy from '@uppy/core';
+import Uppy, { Meta, UploadResult, UppyFile } from '@uppy/core';
 import '@uppy/core/dist/style.min.css';
 import Dashboard from '@uppy/dashboard';
 import '@uppy/dashboard/dist/style.min.css';
 import ImageEditor from '@uppy/image-editor';
 import '@uppy/image-editor/dist/style.css';
 import { Dashboard as DashboardComponent } from '@uppy/react';
-import Tus from '@uppy/tus';
+import XHR from '@uppy/xhr-upload';
 import * as csvParser from 'papaparse';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FileUploadProps {
   bucketName: string;
@@ -33,11 +34,9 @@ const useUppy = ({
   onComplete,
   convertToJson,
 }: FileUploadProps) => {
-  const { token } = useSessionToken();
-  const { host } = useContext(SupabaseContext);
   const [uppy, setUppy] = useState<Uppy | null>(null);
 
-  const imageUploadUrl = `${host}/storage/v1/upload/resumable`;
+  const imageUploadUrl = `${API_ENDPOINT}/storage/upload`;
 
   const getObjectName = (name: string) => (convertToJson ? name.replace(/.csv/g, '.json') : name);
 
@@ -51,19 +50,10 @@ const useUppy = ({
       },
     })
       .use(Dashboard)
-      .use(ImageEditor, { target: Dashboard })
-      .use(Tus, {
-        endpoint: imageUploadUrl,
-        headers: {
-          authorization: `Bearer ${token}`,
-          'x-upsert': 'true',
-        },
-        chunkSize: 6 * 1024 * 1024,
-        allowedMetaFields: ['bucketName', 'objectName', 'contentType', 'cacheControl'],
-        removeFingerprintOnSuccess: true,
-      });
+      .use(ImageEditor)
+      .use(XHR, { endpoint: imageUploadUrl });
 
-    uppy.on('file-added', (file) => {
+    uppy.on('file-added', (file: UppyFile<Meta, Record<string, never>>) => {
       file.meta = {
         ...file.meta,
         bucketName: bucketName,
@@ -76,16 +66,16 @@ const useUppy = ({
         const data = file.data;
         data.text().then((text) => {
           const { data: parsedData } = csvParser.parse(text);
-          file.data = new File([JSON.stringify(parsedData)], file.name);
+          file.data = new File([JSON.stringify(parsedData)], file.name ?? '');
         });
       }
     });
 
-    uppy.on('complete', (result) => {
+    uppy.on('complete', (result: UploadResult<Meta, Record<string, never>>) => {
       onComplete?.(
-        result.successful.map((file) => ({
+        (result.successful ?? []).map((file: UppyFile<Meta, Record<string, never>>) => ({
           file: file.data as File,
-          fileName: file.name,
+          fileName: file.name ?? '',
           fileKey: convertToJson
             ? (file.meta.objectName as string).replace(/.csv/g, '.json')
             : (file.meta.objectName as string),
@@ -118,5 +108,5 @@ export const FileUpload = (props: FileUploadProps) => {
     return null;
   }
 
-  return <DashboardComponent uppy={uppy} theme='dark' />;
+  return <DashboardComponent id='uppy-dashboard' uppy={uppy} theme='dark' />;
 };

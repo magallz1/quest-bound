@@ -20,7 +20,6 @@ import { FeatureRoute, ProtectedRoute } from './components/route';
 import {
   CHECKOUT_ENDPOINT,
   COMPASS_KEY,
-  DDDICE_KEY,
   DOMAIN,
   EMAIL_API_ENDPOINT,
   GRAPH_QL_ENDPOINT,
@@ -228,7 +227,6 @@ function App() {
         domain: DOMAIN,
         environment: overrideEnv ?? import.meta.env.VITE_ENV ?? 'dev',
         maintenance: [],
-        dddiceKey: DDDICE_KEY,
       }}>
       <CacheProvider
         compassKey={COMPASS_KEY}

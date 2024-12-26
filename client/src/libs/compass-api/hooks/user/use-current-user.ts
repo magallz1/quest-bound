@@ -1,12 +1,12 @@
-import { debugLog } from '@/libs/compass-web-utils';
-import { useApolloClient } from '@apollo/client/index.js';
-import { useEffect, useRef } from 'react';
-import { currentUser, CurrentUserQuery, UserRole } from '../../gql';
-import { useQuery } from '../../utils';
-import { useError } from '../metrics';
-import { useSessionToken } from './use-session-token';
+import { debugLog } from "@/libs/compass-web-utils";
+import { useApolloClient } from "@apollo/client/index.js";
+import { useEffect, useRef } from "react";
+import { currentUser, CurrentUserQuery, UserRole } from "../../gql";
+import { useQuery } from "../../utils";
+import { useError } from "../metrics";
+import { useSessionToken } from "./use-session-token";
 
-const debug = debugLog('API', 'useCurrentUser');
+const debug = debugLog("API", "useCurrentUser");
 
 export const useCurrentUser = (pollInterval = 0) => {
   const client = useApolloClient();
@@ -28,12 +28,13 @@ export const useCurrentUser = (pollInterval = 0) => {
 
   useError({
     error,
-    message: 'Unable to get current user. Please try again.',
-    status: 'error',
+    message: "Unable to get current user. Please try again.",
+    status: "error",
   });
 
   const revokeCurrentUser = () => {
     client.resetStore();
+    localStorage.removeItem("questbound-user-id");
   };
 
   return {

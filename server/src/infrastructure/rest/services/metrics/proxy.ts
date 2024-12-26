@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * Proxies metrics call to Sentry
+ * If you're using a metrics service like Sentry, you'll likely need this proxy.
  */
 export const metricsProxy = async (body: any) => {
   const projectId = process.env.SENTRY_PROJECT_ID;

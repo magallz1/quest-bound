@@ -6,6 +6,7 @@ export type AuthorizationContext = {
   userPermittedRulesetWriteIds: string[];
   userPermittedRulesetReadIds: string[];
   userPermittedPublishedRulesetReadIds: string[];
+  authorizationRequired?: boolean;
 };
 
 export type RestfulAuthContext = {

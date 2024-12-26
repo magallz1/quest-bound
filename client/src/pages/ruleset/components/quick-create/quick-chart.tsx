@@ -1,4 +1,4 @@
-import { CreateChart, FileResponse, useCreateChart, useDeleteFile } from '@/libs/compass-api';
+import { CreateChart, FileResponse, useCreateChart } from '@/libs/compass-api';
 import { FileUpload } from '@/libs/compass-core-composites';
 import { Confirm } from '@/libs/compass-core-ui';
 import { useNotifications } from '@/stores';
@@ -32,7 +32,6 @@ export const QuickChart = ({ onCreate }: { onCreate?: () => void }) => {
   const { rulesetId } = useParams();
   const { addNotification } = useNotifications();
   const { createChart, createCharts, loading } = useCreateChart(rulesetId);
-  const { deleteFile } = useDeleteFile();
   const [fileModalOpen, setFileModalOpen] = useState<boolean>(false);
   const [fileUploadResults, setFileUploadResults] = useState<FileResponse[]>([]);
   const [cleanUpFileNames, setCleanUpFileNames] = useState<boolean>(false);
@@ -55,7 +54,7 @@ export const QuickChart = ({ onCreate }: { onCreate?: () => void }) => {
     await createChart({
       rulesetId,
       title: values.title,
-      fileKey: values.fileKey,
+      fileKey: values.fileKey.replace(/ /g, '-'),
     });
 
     onCreate?.();
@@ -66,13 +65,6 @@ export const QuickChart = ({ onCreate }: { onCreate?: () => void }) => {
   };
 
   const handleClearFiles = () => {
-    fileUploadResults.forEach((file) => {
-      deleteFile({
-        bucketName: 'charts',
-        fileName: file.fileKey,
-      });
-    });
-
     formik.setValues({ ...formik.values, fileName: '' });
     setFileUploadResults([]);
   };

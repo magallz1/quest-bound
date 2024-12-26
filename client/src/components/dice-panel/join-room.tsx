@@ -21,8 +21,8 @@ interface Props {
   roomName: string;
   roomSlug: string;
   roomPasscode?: string;
-  isGuestUser: boolean;
   availableRooms: Room[];
+  username?: string;
 }
 
 export const JoinRoom = ({
@@ -31,8 +31,8 @@ export const JoinRoom = ({
   availableRooms,
   joinRoom,
   swapRooms,
-  isGuestUser,
   roomPasscode,
+  username,
 }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -69,6 +69,10 @@ export const JoinRoom = ({
     });
   };
 
+  if (!username) {
+    return null;
+  }
+
   return (
     <>
       {open ? (
@@ -103,15 +107,6 @@ export const JoinRoom = ({
         </ClickAwayListener>
       ) : loading ? (
         <Loader color='info' />
-      ) : isGuestUser ? (
-        <Stack direction='row' spacing={2} alignItems='center'>
-          <Text>{roomName}</Text>
-          <Tooltip title={<Text>Copy Room</Text>}>
-            <IconButton onClick={handleCopy}>
-              <Link fontSize='small' />
-            </IconButton>
-          </Tooltip>
-        </Stack>
       ) : (
         <Stack direction='row' spacing={2} alignItems='center'>
           <Select

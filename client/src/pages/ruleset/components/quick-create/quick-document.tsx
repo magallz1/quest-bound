@@ -1,4 +1,4 @@
-import { useCreateDocument, useDeleteFile } from '@/libs/compass-api';
+import { useCreateDocument } from '@/libs/compass-api';
 import { FileUpload } from '@/libs/compass-core-composites';
 import { useNotifications } from '@/stores';
 import { Button, Input, Modal, ModalContent, Stack, Text } from '@chakra-ui/react';
@@ -19,7 +19,6 @@ export const validationSchema = yup.object({
 
 export const QuickDocument = ({ onCreate }: { onCreate?: () => void }) => {
   const { createDocument, loading } = useCreateDocument();
-  const { deleteFile } = useDeleteFile();
   const { addNotification } = useNotifications();
   const [fileModalOpen, setFileModalOpen] = useState<boolean>(false);
 
@@ -38,7 +37,7 @@ export const QuickDocument = ({ onCreate }: { onCreate?: () => void }) => {
   const handleCreateDocument = async (values: FormValues) => {
     await createDocument({
       title: values.title,
-      fileKey: values.fileKey,
+      fileKey: values.fileKey.replace(/ /g, '-'),
     });
 
     onCreate?.();
@@ -48,11 +47,6 @@ export const QuickDocument = ({ onCreate }: { onCreate?: () => void }) => {
   };
 
   const handleClearFile = () => {
-    deleteFile({
-      bucketName: 'documents',
-      fileName: formik.values.fileKey,
-    });
-
     formik.setValues({ ...formik.values, fileName: '' });
   };
 

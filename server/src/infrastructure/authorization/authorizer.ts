@@ -1,60 +1,38 @@
 import { dbClient } from '@/database';
 import { AuthorizationContext } from '../types';
-import * as jwt from 'jsonwebtoken';
 import { GraphQLError } from 'graphql';
 import { AuthorizerParams } from './types';
 import { getCache } from '../cache';
 import { UserRole } from '../graphql';
+import { verifyToken } from './utils';
 
-const dbSecret = process.env.SUPABASE_SECRET_KEY ?? '';
-const mode = process.env.MODE ?? 'local';
+// For personal use and self hosting, this can be set to false.
+// Otherwise, set to true and implement your auth logic.
+const AUTHORIZATION_REQUIRED = false;
 
 /**
  * Call before every GraphQL request, providing the user ID and permissions as context to each resolver.
- * For users which exist in Supabase auth but not the DB, a new user is created.
  */
 export const authorizer = async ({
   token,
   optionalAuth = false,
   ignoreCache = false,
 }: AuthorizerParams): Promise<AuthorizationContext> => {
-  if (!token || token === 'Bearer null') {
-    if (!optionalAuth) {
-      throw new GraphQLError('User is not authenticated', {
-        extensions: {
-          code: 'UNAUTHENTICATED',
-          http: { status: 401 },
-        },
-      });
-    } else {
-      return {
-        userId: '',
-        userRole: UserRole.USER,
-        userPermittedRulesetWriteIds: [],
-        userPermittedRulesetReadIds: [],
-        userPermittedPublishedRulesetReadIds: [],
-      };
-    }
+  const authToken = token ?? '';
+  let userId = !AUTHORIZATION_REQUIRED ? authToken.replace('Bearer ', '').trim() : '';
+
+  // For routes that don't require authentication
+  if (optionalAuth && AUTHORIZATION_REQUIRED) {
+    return {
+      userId,
+      userRole: UserRole.USER,
+      userPermittedRulesetWriteIds: [],
+      userPermittedRulesetReadIds: [],
+      userPermittedPublishedRulesetReadIds: [],
+    };
   }
 
-  const cache = getCache();
-
-  const db = dbClient();
-  let userId: string = '';
-  const userPermittedRulesetWriteIds: string[] = [];
-  const userPermittedRulesetReadIds: string[] = [];
-  const userPermittedPublishedRulesetReadIds: string[] = [];
-
-  const user: { id: string; email: string } = {
-    id: '',
-    email: '',
-  };
-
-  // Verify session token with Supabase private key
-  const sessionToken = (token ?? '').replace('Bearer ', '');
-  const payload = jwt.verify(sessionToken, dbSecret) as jwt.JwtPayload;
-
-  if (!payload?.sub) {
+  if ((!token || token === 'Bearer null') && AUTHORIZATION_REQUIRED && !optionalAuth) {
     throw new GraphQLError('User is not authenticated', {
       extensions: {
         code: 'UNAUTHENTICATED',
@@ -63,8 +41,23 @@ export const authorizer = async ({
     });
   }
 
-  user.id = payload.sub ?? '';
-  user.email = payload.email ?? '';
+  if (!AUTHORIZATION_REQUIRED && !token) {
+    throw Error('Must provide user ID as token when authorization is not required');
+  }
+
+  const cache = getCache();
+  const db = dbClient();
+
+  const userPermittedRulesetWriteIds: string[] = [];
+  const userPermittedRulesetReadIds: string[] = [];
+  const userPermittedPublishedRulesetReadIds: string[] = [];
+
+  const user: { id: string; email: string } = AUTHORIZATION_REQUIRED
+    ? verifyToken(authToken)
+    : {
+        id: userId,
+        email: '',
+      };
 
   const cachedUser = cache.get(user.id);
 
@@ -93,8 +86,7 @@ export const authorizer = async ({
     },
   });
 
-  // It should never be that a user exists in Supabase but not in the DB
-  // Initial user bootstrap occurs in earlyAccessUser route
+  // New users are bootstrapped in the restful signin API
   if (!currentUser) {
     throw new GraphQLError('Unable to retrieve user', {
       extensions: {
@@ -143,5 +135,6 @@ export const authorizer = async ({
     userPermittedRulesetWriteIds,
     userPermittedRulesetReadIds,
     userPermittedPublishedRulesetReadIds,
+    authorizationRequired: AUTHORIZATION_REQUIRED,
   };
 };

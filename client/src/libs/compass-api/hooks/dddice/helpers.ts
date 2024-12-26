@@ -2,35 +2,24 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Arguments, DiceTheme, DiceUser, Room } from './types';
 
-const getToken = (guest = false) => {
-  if (guest) {
-    return Cookies.get('dddice-guest-user-token');
-  }
+const getToken = () => {
   return Cookies.get('dddice-user-token');
 };
 
-export const setToken = (token: string, guest = false) => {
-  if (guest) {
-    Cookies.set('dddice-guest-user-token', token);
-  } else {
-    Cookies.set('dddice-user-token', token);
-  }
+export const setToken = (token: string) => {
+  Cookies.set('dddice-user-token', token);
 };
 
 const removeToken = () => {
   Cookies.remove('dddice-user-token');
 };
 
-export const authenticateDddiceUser = async (): Promise<DiceUser> => {
-  const authUserToken = getToken();
-  const guestUserToken = getToken(true);
-
-  const token = authUserToken ?? guestUserToken;
-  const isGuest = !authUserToken;
+export const authenticateDddiceUser = async (): Promise<DiceUser | null> => {
+  const token = getToken();
 
   if (token) {
     const user = await getUser(token);
-    const { slug, name, passcode, rooms } = await getLastRoom(token, isGuest);
+    const { slug, name, passcode, rooms } = await getLastRoom(token);
     const theme = await getLastTheme(token);
     return {
       roomSlug: slug,
@@ -40,33 +29,11 @@ export const authenticateDddiceUser = async (): Promise<DiceUser> => {
       userToken: token,
       username: user.data.username,
       userId: user.data.uuid,
-      rooms: !isGuest ? rooms : [],
-      isGuest,
+      rooms,
     };
   }
 
-  const res = await bootstrapGuestUser();
-  return res;
-};
-
-const bootstrapGuestUser = async () => {
-  const userToken = await createGuestUser();
-  setToken(userToken, true);
-
-  const { slug, name } = await createRoom(userToken);
-  localStorage.setItem('dddice-guest-room', slug);
-
-  const guestUser = await getUser(userToken);
-
-  return {
-    roomSlug: slug,
-    roomName: name,
-    userToken,
-    userId: guestUser.data.uuid,
-    username: guestUser.data.username,
-    rooms: [],
-    isGuest: true,
-  };
+  return null;
 };
 
 export const createAuthCode = async ({ clearPoll }: { clearPoll: () => void }) => {
@@ -142,11 +109,9 @@ export const disconnect = async (roomSlug: string, token: string) => {
   });
 };
 
-const getLastRoom = async (token: string, isGuest: boolean): Promise<Room & { rooms: Room[] }> => {
+const getLastRoom = async (token: string): Promise<Room & { rooms: Room[] }> => {
   const rooms = await getRooms(token);
-  const prevSlug = isGuest
-    ? localStorage.getItem('dddice-guest-room')
-    : localStorage.getItem('dddice-room');
+  const prevSlug = localStorage.getItem('dddice-room');
   if (prevSlug) {
     const prevRoom = rooms.find((r: any) => r.slug === prevSlug);
     if (prevRoom) {
@@ -158,22 +123,13 @@ const getLastRoom = async (token: string, isGuest: boolean): Promise<Room & { ro
   }
   const { slug, name } = await createRoom(token);
   const roomsWithNew = await getRooms(token);
-  if (isGuest) {
-    localStorage.setItem('dddice-guest-room', slug);
-  } else {
-    localStorage.setItem('dddice-room', slug);
-  }
+
+  localStorage.setItem('dddice-room', slug);
   return {
     slug,
     name,
     rooms: roomsWithNew,
   };
-};
-
-const createGuestUser = async () => {
-  const res = await axios.post('https://dddice.com/api/1.0/user');
-
-  return res.data.data;
 };
 
 const getUser = async (token: string) => {

@@ -131,7 +131,33 @@ cd ./client && npm run start
 
 Navigate to [http://localhost:5173](http://localhost:5173) in your browser to use Quest Bound.
 
+## Tips & Tricks
+
+### Delete Database
+
+If you find yourself wanting to delete a database that you bootstrapped, you can do so from the PSQL terminal. When you installed Postgres, it likely created a default database that's named after the profile on your computer. 
+
+*MacOS*
+
+If you're using the Postgres native app, double click on the default database to open the PSQL terminal.
+
+*Windows & Linux*
+
+From a terminal, simply running `psql` should start the PSQL terminal.
+
+Run the following:
+
+```
+DROP DATABASE IF EXISTS "qbdb" ;
+```
+
+Note that "qbdb" should be replaced with the name of the database you want to delete.
+
 ## Developing Quest Bound
+
+You can find documentation on developing Quest Bound at [docs.questbound.com](https://docs.questbound.com).
+
+*Docs coming soon!*
 
 ### Client
 -------------------
@@ -177,8 +203,4 @@ To connect a CDN to Quest Bound:
 
   - Remove `addStaticDomain` Apollo link in GraphQL provider
 
-## Tips & Tricks
 
-### Delete Database
-
-`DROP DATABASE IF EXISTS "qbdb" ;`

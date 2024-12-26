@@ -5,11 +5,11 @@
   "type": "module",
   "types": "dist/questbound-compass-web-core.d.ts",
   "scripts": {
-    "boostrap": "npm install && npm run build",
+    "bootstrap": "npm install && npm run build",
     "dev": "vite --force",
-    "host": "vite --host 192.168.0.175",
+    "host": "vite --port 5173 --host",
     "build": "tsc && NODE_OPTIONS=--max-old-space-size=16384 vite build",
-    "start": "vite preview --port 5173",
+    "start": "vite preview --port 5173 --host",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {

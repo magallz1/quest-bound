@@ -6,21 +6,16 @@
   "scripts": {
     "bootstrap": "npm install && npm run bootstrap:env && npm run db:generate && npm run db:migrate:local && npm run build && npm run bootstrap:storage",
     "build": "npx tsc && npm run gql:copySchema && npm run db:generate && tsc-alias && npm run bootstrap:storage",
+    "build:docker": "npx tsc && npm run gql:copySchema && npm run db:generate && tsc-alias",
     "bootstrap:storage": "node dist/infrastructure/rest/services/storage/bootstrap-storage.js",
-    "bootstrap:env": "cp local.env.txt .env",
+    "start:docker": "npm run db:migrate:local && npm run start",
     "start": "node dist/app.js",
     "dev": "nodemon",
-    "minify": "rollup dist/app.js --file dist/bundle.js --format cjs",
     "gql:copySchema": "cp src/infrastructure/graphql/schema.graphql dist/infrastructure/graphql/schema.graphql",
     "gql:generate": "cd src/infrastructure/graphql && amplify codegen && cd ../../..",
     "gql:copyTypes": "rm /Users/curtmorgan/workshop/qbt/applications/compass-web-app/src/libs/compass-api/gql/generated-types.ts && cat src/infrastructure/graphql/generated-types.ts >> /Users/curtmorgan/workshop/qbt/applications/compass-web-app/src/libs/compass-api/gql/generated-types.ts",
     "db:generate": "prisma generate --schema=./src/database/prisma/schema.prisma",
-    "db:migrate:local": "npm run env:local && prisma migrate dev --schema=./src/database/prisma/schema.prisma",
-    "db:migrate:dev": "npm run env:dev && prisma migrate dev --schema=./src/database/prisma/schema.prisma && npm run env:local",
-    "db:migrate:prod": "npm run env:prod && prisma migrate dev --schema=./src/database/prisma/schema.prisma && npm run env:local",
-    "env:local": "rm .env && cat local.env.txt >> .env",
-    "env:dev": "rm .env && cat dev.env.txt >> .env",
-    "env:prod": "rm .env && cat prod.env.txt >> .env"
+    "db:migrate:local": "prisma migrate dev --schema=./src/database/prisma/schema.prisma"
   },
   "nodemonConfig": {
     "ignore": [

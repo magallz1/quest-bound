@@ -46,7 +46,7 @@ export const AuthModal = ({ createAuthCode, pollForAuth, clearPoll, username, lo
           </Stack>
         ) : (
           <Text className='clickable' onClick={handleOpen} sx={{ textDecoration: 'underline' }}>
-            Sign In to dddice
+            Login to dddice
           </Text>
         )}
       </Stack>

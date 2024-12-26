@@ -51,7 +51,7 @@ async function copy(table: string, fileKey: string, newKey: string) {
 async function createSignedUrl(table: string, fileKey: string, expiresIn: number) {
   console.log(`Creating URL for ${fileKey} from table ${table}. Expires in ${expiresIn}`);
 
-  const signedUrl = `http://localhost:8000/storage/${table}/${fileKey}`;
+  const signedUrl = `http://127.0.0.1:8000/storage/${table}/${fileKey}`;
 
   return { data: { signedUrl } };
 }

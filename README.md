@@ -15,6 +15,8 @@ Quest Bound is a free and open source engine for creating digital tabletop role 
 
 [Report Bugs or Request Features](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#issues)
 
+[About the Creator](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#about-the-creator)
+
 ## Sponsor Shoutout
 
 Special thanks to those who have supported Quest Bound's development above and beyond what's been expected of them.
@@ -115,7 +117,6 @@ Once all four containers are running successfully, open a web browser to test th
 
 ![Screenshot 2024-12-27 at 8 18 14 AM](https://github.com/user-attachments/assets/f0ee2059-1291-408d-a97f-b597d1c2518f)
 
-
 ## Contributing to Quest Bound
 
 You can find documentation on developing Quest Bound on this repo's wiki.
@@ -133,5 +134,13 @@ Use discussions to chat about potential features and updates with other users.
 To submit a contribution, push your work to a feature branch and create a pull request to the main branch. Follow the PR template.
 Currently, all pull requests are reviewed by a single code owner, but this policy may change over time.
 
+## About the Creator
 
+My name's Curt and I've been a professional software developer since 2017, working for companies ranging between small startups to as large as Amazon Web Services. 
 
+Quest Bound is the most ambitious and complex project I have ever worked on. What started as a simple idea for a more intelligent character generator evolved into an accessible engine for
+creating the digital versions of custom TTRPGs. Eventually, it became clear that what I wanted to do was bring the power to create D&D Beyond level applications to independent game creators.
+
+I spent nearly two years building Quest Bound, half of that full time while living on savings and all of it working more hours in a day than I should have been. When I realized I couldn't make QB work as a sustainable business, I decided to open source it so others may continue to use it forever. It is my hope that other developers and TTRPG enthusiasts will contribute to QB's continued development over time.
+
+I've made a lot of mistakes and have learned an incredible amount by building Quest Bound--as a developer, an aspiring entrepenuer and as a responsible consumer of tabletop gaming. I consider Quest Bound to be my contribution to this community of gamers. Please use it freely, share it with others and contribute to it to make it better for everyone.

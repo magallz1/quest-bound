@@ -1,45 +1,38 @@
 # Quest Bound
 
+Quest Bound is a free and open source engine for creating digital tabletop role playing games. This repo contains all of its source code.
+
+This code is available through a strong copyleft license. Any projects that use any part of Quest Bound must also be free and open source. 
+
+You can find the terms of service for downloading and using Quest Bound [here](https://docs.questbound.com/docs/terms).
+
+
+[Getting Started]()
+
+[Bootstrapping]()
+
+[Running Quest Bound]()
+
+[Contributing]()
+
+
 ## Getting Started
 
-### Terminal
+Quest Bound is a web application written entirely in TypeScript, a high level programming language that compiles to JavaScript. You will run two separate applications to use Quest Bound--a server and a client. When both are running, you'll access Quest Bound through a web browser of your choice.
 
-Boostrapping and starting Quest Bound require running commands from a command line using an interpreter called *Bash*.
+### Source Code
 
-*MacOS & Linux*
+Download the source code as a zip file and unzip it on your computer anywhere you'd like. Even though Quest Bound will be running on your own computer, it is not a native application, so it isn't picky about where its files are located.
 
-Bash is installed and used by default. Open your Terminal application to use bash commands.
 
-*Windows 10 or Greater*
-
-Bash is installed through a subsystem called Windows Subsystem for Linux (WSL). Follow the instructions [here](https://www.geeksforgeeks.org/use-bash-shell-natively-windows-10/) to enable it, then run commands from the Windows Terminal.
-
-*Older Windows*
-
-You'll need to use something like [Git Bash](https://gitforwindows.org/).
 
 ### Required Downloads
 
-**Node**
+**Docker**
 
-Quest Bound is written entirely in TypeScript, which compiles to JavaScript. You need a JavaScript runtime environment on your computer in order to boostrap and start the application.
+To make it as easy to run as possible, Quest Bound has been encapsulated into a Docker container. Docker is a separate application that will run Quest Bound inside a virtual machine on your computer, relieving you of downloading and installing the several specific runtimes QB requires.
 
-Download NodeJS version 22 or greater here:
-https://nodejs.org/en/download/prebuilt-installer
-
-**PostgreSQL**
-
-Postgres is an open source SQL based relational database. You'll need to have a Postgres server running on your computer any time Quest Bound is running.
-
-*MacOS*
-
-I recommend downloading Postgres through the native application here:
-[https://postgresapp.com/](https://postgresapp.com/downloads.html)
-
-*Windows & Linux*
-
-Download Postgres version 14 or greater here:
-https://www.postgresql.org/download/
+Download [Docker Desktop](https://www.docker.com/products/docker-desktop/). You will not need a paid account.
 
 ### Recommended Downloads
 
@@ -53,9 +46,75 @@ My favorite client for Postgres is [Postico](https://eggerapps.at/postico2/). A 
 You will only find this useful if you intend to edit Quest Bound's source code. If you do, you likely already have a favorite code editor. Mine is [VS Code](https://code.visualstudio.com/download).
 
 
+
+
 ### Bootstrapping
 
 Boostrapping Quest Bound only needs to be done once. After you get it running the first time, you can simply [start it](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#starting-quest-bound).
+
+### Docker
+
+Install and open Docker Desktop.
+
+![Screenshot 2024-12-27 at 8 00 56 AM](https://github.com/user-attachments/assets/ddc43848-9556-4e4c-af9d-d993ccb4d486)
+
+In your terminal, navigate to wherever you placed the unzip source code. It should be in a file structure like this.
+
+![Screenshot 2024-12-27 at 8 02 25 AM](https://github.com/user-attachments/assets/a7af5000-b4d9-4e78-9f80-a706ec7a79bb)
+
+From the top level directory, called `quest-bound`, run the following command:
+
+```
+docker compose up --build
+```
+
+The `docker` command should have been made available on your machine when you installed Docker Desktop. If it isn't, follow the steps [here](https://www.docker.com/get-started/).
+
+This command will install several images on your machine. Each of them has a critical piece of infrastructure that Quest Bound needs. After those are downloaded, it will build the server and client applications. This should take five to ten minutes total. 
+
+When it's finished, you should see four new images listed in Docker Desktop.
+
+- quest-bound-client
+- quest-bound-server
+- redis/redis-server-stack
+- postgres
+
+![Screenshot 2024-12-27 at 8 07 31 AM](https://github.com/user-attachments/assets/a4a99c2d-aab5-4047-b4c4-45ad300518db)
+
+In your containers list, you should see a new collapsible list of containers called `quest-bound`. If this parent container is running, go ahead a click the stop button to stop it. 
+This should clear the running process in your terminal.
+
+## Starting Quest Bound
+
+Open Docker Desktop and click on `quest-bound` to see a list of containers and a running log.
+
+![Screenshot 2024-12-27 at 8 11 54 AM](https://github.com/user-attachments/assets/c4b6e277-c8d2-4ae9-9c27-400cdfaa3a04)
+
+Start each container in this order, waiting for the corresponding message to show it started successfully.
+
+- quest-bound-redis: `Ready to accept connections tcp`
+- quest-bound-db: `database system is ready to accept connections`
+- quest-bound-server: `[server]: Server is running at http://localhost:8000`
+- quest-bound-client: `Local:   http://localhost:5173/`
+
+Once all four containers are running successfully, open a web browser to test the services.
+
+`http://localhost:8000`
+
+![Screenshot 2024-12-26 at 9 45 07 AM](https://github.com/user-attachments/assets/85c0008d-c4e9-4549-8b53-05bb1027446f)
+
+`http://localhost:5173`
+
+![Screenshot 2024-12-27 at 8 18 14 AM](https://github.com/user-attachments/assets/f0ee2059-1291-408d-a97f-b597d1c2518f)
+
+
+## Contributing to Quest Bound
+
+You can find documentation on developing Quest Bound at [docs.questbound.com](https://docs.questbound.com).
+
+*Docs coming soon!*
+
+### Bootstrapping
 
 #### Server
 
@@ -96,7 +155,7 @@ npm run bootstrap
 
 This will install software that Quest Bound uses internally, then compile it into the application.
 
-## Starting Quest Bound
+### Starting
 
 Ensure your Postgres server is running on port 5432.
 
@@ -117,7 +176,7 @@ You should see the message `[server] Server is running at http://localhost:8000`
 
 You can navigate to the url in your browser to make sure the server is running.
 
-![Screenshot 2024-12-26 at 9 45 07 AM](https://github.com/user-attachments/assets/85c0008d-c4e9-4549-8b53-05bb1027446f)
+
 
 ### Client
 
@@ -130,34 +189,6 @@ cd ./client && npm run start
 ```
 
 Navigate to [http://localhost:5173](http://localhost:5173) in your browser to use Quest Bound.
-
-## Tips & Tricks
-
-### Delete Database
-
-If you find yourself wanting to delete a database that you bootstrapped, you can do so from the PSQL terminal. When you installed Postgres, it likely created a default database that's named after the profile on your computer. 
-
-*MacOS*
-
-If you're using the Postgres native app, double click on the default database to open the PSQL terminal.
-
-*Windows & Linux*
-
-From a terminal, simply running `psql` should start the PSQL terminal.
-
-Run the following:
-
-```
-DROP DATABASE IF EXISTS "qbdb" ;
-```
-
-Note that "qbdb" should be replaced with the name of the database you want to delete.
-
-## Developing Quest Bound
-
-You can find documentation on developing Quest Bound at [docs.questbound.com](https://docs.questbound.com).
-
-*Docs coming soon!*
 
 ### Client
 -------------------
@@ -203,4 +234,44 @@ To connect a CDN to Quest Bound:
 
   - Remove `addStaticDomain` Apollo link in GraphQL provider
 
+### Terminal
 
+Boostrapping and starting Quest Bound require running commands from a command line using an interpreter called *Bash*.
+
+*MacOS & Linux*
+
+Bash is installed and used by default. Open your Terminal application to use bash commands.
+
+*Windows 10 or Greater*
+
+Bash is installed through a subsystem called Windows Subsystem for Linux (WSL). Follow the instructions [here](https://www.geeksforgeeks.org/use-bash-shell-natively-windows-10/) to enable it, then run commands from the Windows Terminal.
+
+*Older Windows*
+
+You'll need to use something like [Git Bash](https://gitforwindows.org/).
+
+### Required Downloads for Contributing (Advanced)
+
+If you intend to develop Quest Bound, either for personal use or to contribute to the project, you might find it more useful to run the services locally outside of a Docker container. To do so, you'll at least need Node
+installed on your machine. Optionally, you can run a local PostgreSQL server, or run one through Docker.
+
+**Node**
+
+Quest Bound is written entirely in TypeScript, which compiles to JavaScript. You need a JavaScript runtime environment on your computer in order to boostrap and start the application.
+
+Download NodeJS version 22 or greater here:
+https://nodejs.org/en/download/prebuilt-installer
+
+**PostgreSQL**
+
+Postgres is an open source SQL based relational database. You'll need to have a Postgres server running on your computer any time Quest Bound is running.
+
+*MacOS*
+
+I recommend downloading Postgres through the native application here:
+[https://postgresapp.com/](https://postgresapp.com/downloads.html)
+
+*Windows & Linux*
+
+Download Postgres version 14 or greater here:
+https://www.postgresql.org/download/

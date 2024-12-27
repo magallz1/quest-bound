@@ -4,6 +4,7 @@ import { initializeRestfulEndpoints } from './infrastructure/rest';
 import { initializeGqlServer } from './infrastructure/graphql';
 import cors from 'cors';
 import { storageDir } from './infrastructure/rest/services/storage/file-upload';
+import { registerExportRoute } from './local-utils/export-data';
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ app.use(express.json());
 const initializeServer = async () => {
   initializeGqlServer(app);
   initializeRestfulEndpoints(app);
+
+  registerExportRoute(app);
 
   app.get('/', (req, res) => {
     res.send({

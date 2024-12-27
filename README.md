@@ -5,17 +5,17 @@ Quest Bound is a free and open source engine for creating digital tabletop role 
 ![Screenshot 2024-12-27 at 8 33 12 AM](https://github.com/user-attachments/assets/98809869-265b-40cf-b45e-555682b42888)
 
 
-[Getting Started](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#getting-started)
+[Getting Started](https://github.com/curtmorgan3/quest-bound#getting-started)
 
-[Bootstrapping](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#bootstrapping)
+[Bootstrapping](https://github.com/curtmorgan3/quest-bound#bootstrapping)
 
-[Running Quest Bound](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#starting-quest-bound)
+[Running Quest Bound](https://github.com/curtmorgan3/quest-bound#starting-quest-bound)
 
-[Contributing](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#contributing-to-quest-bound)
+[Contributing](https://github.com/curtmorgan3/quest-bound#contributing-to-quest-bound)
 
-[Report Bugs or Request Features](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#issues)
+[Report Bugs or Request Features](https://github.com/curtmorgan3/quest-bound#issues)
 
-[About the Creator](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#about-the-creator)
+[About the Creator](https://github.com/curtmorgan3/quest-bound#about-the-creator)
 
 ## Sponsor Shoutout
 
@@ -60,7 +60,7 @@ You will only find this useful if you intend to edit Quest Bound's source code. 
 
 ### Bootstrapping
 
-Boostrapping Quest Bound only needs to be done once. After you get it running the first time, you can simply [start it](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#starting-quest-bound).
+Boostrapping Quest Bound only needs to be done once. After you get it running the first time, you can simply [start it](https://github.com/curtmorgan3/quest-bound#starting-quest-bound).
 
 ### Docker
 

@@ -38,6 +38,8 @@ Quest Bound is a web application written entirely in TypeScript, a high level pr
 
 Download the source code as a zip file and unzip it on your computer anywhere you'd like. Even though Quest Bound will be running on your own computer, it is not a native application, so it isn't picky about where its files are located.
 
+![Screenshot 2024-12-27 at 9 59 17 AM](https://github.com/user-attachments/assets/0542e7af-4a61-4560-bf6f-ba22924c5f5f)
+
 ### Required Downloads
 
 **Docker**

@@ -70,7 +70,16 @@ Install and open Docker Desktop.
 
 ![Screenshot 2024-12-27 at 8 00 56 AM](https://github.com/user-attachments/assets/ddc43848-9556-4e4c-af9d-d993ccb4d486)
 
-In your terminal, navigate to wherever you placed the unzip source code. It should be in a file structure like this.
+In your terminal, navigate to wherever you placed the unzip source code. For example:
+
+```
+cd ~/Documents/quest-bound
+```
+
+This command will vary depending on your operating system and where you placed the unzipped source code. In most terminal applications,
+dragging the folder into the terminal will paste its absolute path.
+
+It should be in a file structure like this.
 
 ![Screenshot 2024-12-27 at 8 02 25 AM](https://github.com/user-attachments/assets/a7af5000-b4d9-4e78-9f80-a706ec7a79bb)
 

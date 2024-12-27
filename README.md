@@ -80,6 +80,9 @@ docker compose up --build
 
 The `docker` command should have been made available on your machine when you installed Docker Desktop. If it isn't, follow the steps [here](https://www.docker.com/get-started/).
 
+![Screenshot 2024-12-27 at 9 27 34 AM](https://github.com/user-attachments/assets/95f19ea9-602e-452b-aba5-4457663d627a)
+
+
 This command will install several images on your machine. Each of them has a critical piece of infrastructure that Quest Bound needs. After those are downloaded, it will build the server and client applications. This should take five to ten minutes total. 
 
 When it's finished, you should see four new images listed in Docker Desktop.

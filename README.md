@@ -135,7 +135,3 @@ Currently, all pull requests are reviewed by a single code owner, but this polic
 
 
 
-*Windows & Linux*
-
-Download Postgres version 14 or greater here:
-https://www.postgresql.org/download/

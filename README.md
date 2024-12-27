@@ -1,19 +1,16 @@
 # Quest Bound
 
-Quest Bound is a free and open source engine for creating digital tabletop role playing games. This repo contains all of its source code.
+Quest Bound is a free and open source engine for creating digital tabletop role playing games. This repo contains all of its source code, its open source license and terms of use.
 
-This code is available through a strong copyleft license. Any projects that use any part of Quest Bound must also be free and open source. 
+[Getting Started](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#getting-started)
 
-You can find the terms of service for downloading and using Quest Bound [here](https://docs.questbound.com/docs/terms).
+[Bootstrapping](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#bootstrapping)
 
+[Running Quest Bound](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#starting-quest-bound)
 
-[Getting Started]()
+[Contributing](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#contributing-to-quest-bound)
 
-[Bootstrapping]()
-
-[Running Quest Bound]()
-
-[Contributing]()
+[Report Bugs or Request Features](https://github.com/curtmorgan3/quest-bound/edit/main/README.md#issues)
 
 
 ## Getting Started
@@ -23,8 +20,6 @@ Quest Bound is a web application written entirely in TypeScript, a high level pr
 ### Source Code
 
 Download the source code as a zip file and unzip it on your computer anywhere you'd like. Even though Quest Bound will be running on your own computer, it is not a native application, so it isn't picky about where its files are located.
-
-
 
 ### Required Downloads
 
@@ -44,8 +39,6 @@ My favorite client for Postgres is [Postico](https://eggerapps.at/postico2/). A 
 **Text Editor**
 
 You will only find this useful if you intend to edit Quest Bound's source code. If you do, you likely already have a favorite code editor. Mine is [VS Code](https://code.visualstudio.com/download).
-
-
 
 
 ### Bootstrapping
@@ -84,7 +77,7 @@ When it's finished, you should see four new images listed in Docker Desktop.
 In your containers list, you should see a new collapsible list of containers called `quest-bound`. If this parent container is running, go ahead a click the stop button to stop it. 
 This should clear the running process in your terminal.
 
-## Starting Quest Bound
+## Running Quest Bound
 
 Open Docker Desktop and click on `quest-bound` to see a list of containers and a running log.
 
@@ -110,9 +103,20 @@ Once all four containers are running successfully, open a web browser to test th
 
 ## Contributing to Quest Bound
 
-You can find documentation on developing Quest Bound at [docs.questbound.com](https://docs.questbound.com).
+You can find documentation on developing Quest Bound on this repo's wiki.
 
-*Docs coming soon!*
+### Issues
+
+To report bugs, create an issue in this repository and select the bug template. Issues will be updated and closed as they are addressed.
+
+### Discussions
+
+Use discussions to chat about potential features and updates with other users. 
+
+### Pull Requests
+
+To submit a contribution, push your work to a feature branch and create a pull request to the main branch. Follow the PR template.
+Currently, all pull requests are reviewed by a single code owner, but this policy may change over time.
 
 ### Bootstrapping
 

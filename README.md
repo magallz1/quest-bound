@@ -4,7 +4,6 @@ Quest Bound is a free and open source engine for creating digital tabletop role 
 
 ![Screenshot 2024-12-27 at 8 33 12 AM](https://github.com/user-attachments/assets/98809869-265b-40cf-b45e-555682b42888)
 
-
 [Getting Started](https://github.com/curtmorgan3/quest-bound#getting-started)
 
 [Bootstrapping](https://github.com/curtmorgan3/quest-bound#bootstrapping)
@@ -28,7 +27,6 @@ Special thanks to those who have supported Quest Bound's development above and b
 T.L. Bainter
 
 GM Pak
-
 
 ## Getting Started
 
@@ -59,7 +57,6 @@ My favorite client for Postgres is [Postico](https://eggerapps.at/postico2/). A 
 
 You will only find this useful if you intend to edit Quest Bound's source code. If you do, you likely already have a favorite code editor. Mine is [VS Code](https://code.visualstudio.com/download).
 
-
 ### Bootstrapping
 
 Boostrapping Quest Bound only needs to be done once. After you get it running the first time, you can simply [start it](https://github.com/curtmorgan3/quest-bound#starting-quest-bound).
@@ -70,7 +67,7 @@ Install and open Docker Desktop.
 
 ![Screenshot 2024-12-27 at 8 00 56 AM](https://github.com/user-attachments/assets/ddc43848-9556-4e4c-af9d-d993ccb4d486)
 
-In your terminal, navigate to wherever you placed the unzip source code. For example:
+In your terminal, navigate to wherever you placed the unzipped source code. For example:
 
 ```
 cd ~/Documents/quest-bound
@@ -93,8 +90,7 @@ The `docker` command should have been made available on your machine when you in
 
 ![Screenshot 2024-12-27 at 9 27 34 AM](https://github.com/user-attachments/assets/95f19ea9-602e-452b-aba5-4457663d627a)
 
-
-This command will install several images on your machine. Each of them has a critical piece of infrastructure that Quest Bound needs. After those are downloaded, it will build the server and client applications. This should take five to ten minutes total. 
+This command will install several Docker images on your machine. Each of them has a critical piece of infrastructure that Quest Bound needs. After those are downloaded, it will build the server and client applications. This should take five to ten minutes total.
 
 When it's finished, you should see four new images listed in Docker Desktop.
 
@@ -105,7 +101,7 @@ When it's finished, you should see four new images listed in Docker Desktop.
 
 ![Screenshot 2024-12-27 at 8 07 31 AM](https://github.com/user-attachments/assets/a4a99c2d-aab5-4047-b4c4-45ad300518db)
 
-In your containers list, you should see a new collapsible list of containers called `quest-bound`. If this parent container is running, go ahead a click the stop button to stop it. 
+In your containers list, you should see a new collapsible list of containers called `quest-bound`. If this parent container is running, go ahead a click the stop button to stop it.
 This should clear the running process in your terminal.
 
 ## Running Quest Bound
@@ -141,7 +137,7 @@ To report bugs, create an issue in this repository and select the bug template. 
 
 ### Discussions
 
-Use discussions to chat about potential features and updates with other users. 
+Use discussions to chat about potential features and updates with other users.
 
 ### Pull Requests
 
@@ -150,7 +146,7 @@ Currently, all pull requests are reviewed by a single code owner, but this polic
 
 ## About the Creator
 
-My name's Curt and I've been a professional software developer since 2017, working for companies ranging between small startups to as large as Amazon Web Services. 
+My name's Curt and I've been a professional software developer since 2017, working for companies ranging between small startups to as large as Amazon Web Services.
 
 Quest Bound is the most ambitious and complex project I have ever worked on. What started as a simple idea for a more intelligent character generator evolved into an accessible engine for
 creating the digital versions of custom TTRPGs. Eventually, it became clear that what I wanted to do was bring the power to create D&D Beyond level applications to independent game creators.

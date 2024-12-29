@@ -67,20 +67,20 @@ Install and open Docker Desktop.
 
 ![Screenshot 2024-12-27 at 8 00 56 AM](https://github.com/user-attachments/assets/ddc43848-9556-4e4c-af9d-d993ccb4d486)
 
+[Troubleshooting Tips for Docker on Windows](https://github.com/curtmorgan3/quest-bound#troubleshooting)
+
+Open your computer's terminal (Terminal on MacOS and Linux, CMD Prompt on Windows).
+
 In your terminal, navigate to wherever you placed the unzipped source code. For example:
 
-```
-cd ~/Documents/quest-bound
+``` 
+cd ~/Documents/quest-bound-main
 ```
 
 This command will vary depending on your operating system and where you placed the unzipped source code. In most terminal applications,
 dragging the folder into the terminal will paste its absolute path.
 
-It should be in a file structure like this.
-
-![Screenshot 2024-12-27 at 8 02 25 AM](https://github.com/user-attachments/assets/a7af5000-b4d9-4e78-9f80-a706ec7a79bb)
-
-From the top level directory, called `quest-bound`, run the following command:
+Once in the top level directory, called `quest-bound-main`, run the following command:
 
 ```
 docker compose up --build
@@ -104,9 +104,19 @@ When it's finished, you should see four new images listed in Docker Desktop.
 In your containers list, you should see a new collapsible list of containers called `quest-bound`. If this parent container is running, go ahead a click the stop button to stop it.
 This should clear the running process in your terminal.
 
+### Troubleshooting
+
+Windows machines, especially those running Windows 10 or earlier, need a subsystem called Windows Subsystem for Linux (WSL). When installing Docker, you may run into an error like this:
+
+![dockerfail](https://github.com/user-attachments/assets/99679793-3a98-4e32-8c02-9e8446a3215f)
+
+Read through [this thread](https://github.com/docker/for-win/issues/13845#issuecomment-1895788805) to update to the latest version of WSL.
+
+Follow [this guide](https://www.ninjaone.com/blog/how-to-enable-cpu-virtualization-in-your-computer-bios/) to enable virtualization from your computer's BIOS.
+
 ## Running Quest Bound
 
-Open Docker Desktop and click on `quest-bound` to see a list of containers and a running log.
+Open Docker Desktop and click on `quest-bound-main` to see a list of containers and a running log.
 
 ![Screenshot 2024-12-27 at 8 11 54 AM](https://github.com/user-attachments/assets/c4b6e277-c8d2-4ae9-9c27-400cdfaa3a04)
 

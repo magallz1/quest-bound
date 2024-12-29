@@ -114,6 +114,10 @@ Read through [this thread](https://github.com/docker/for-win/issues/13845#issuec
 
 Follow [this guide](https://www.ninjaone.com/blog/how-to-enable-cpu-virtualization-in-your-computer-bios/) to enable virtualization from your computer's BIOS.
 
+It might be helpful to store the `quest-bound-main` directory with the wsl file structure, instead of the usual `C:\\` path. For example:
+
+`\\wsl.localhost\Ubuntu\home\<user>\Documents\quest-bound-main`
+
 ## Running Quest Bound
 
 Open Docker Desktop and click on `quest-bound-main` to see a list of containers and a running log.

@@ -1,3 +1,7 @@
+__Please note__: This fork is pretty much a hack to get the `API_ENDPOINT` and `DOMAIN` out of constants.js and assigned as variables (a rough solution to [Issue #4](https://github.com/curtmorgan3/quest-bound/issues/4)).  I've also set `redis` and `postgres` containers to be only accessible by containers in the `quest-bound` network.
+
+Follow the original instructions to get everything running.  Once everything is working on `localhost`, feel free to change the `API_ENDPOINT` and `DOMAIN` to whatever one needs.  From the limited testing I've done, things seem to work OK.  I have not done extensive testing, so there may be a few bumps in the road.
+
 # Quest Bound
 
 Quest Bound is a free and open source engine for creating digital tabletop role playing games. This repo contains all of its source code, its open source license and terms of use.
@@ -79,7 +83,7 @@ Open your computer's terminal (Terminal on MacOS and Linux, CMD Prompt on Window
 
 In your terminal, navigate to wherever you placed the unzipped source code. For example:
 
-``` 
+```
 cd ~/Documents/quest-bound-main
 ```
 
